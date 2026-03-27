@@ -531,16 +531,15 @@
     <!-- FEATURED SECTION (full-viewport, outside main) -->
     <div id="featuredSection">
         <div id="featuredGrid"></div>
+        <div class="wip" id="wipBanner" style="display:none;max-width:1600px;margin:0 auto;padding:0 48px;">
+            <span>Store data curated by <a href="https://www.reddit.com/u/wildthingking" target="_blank" rel="noopener">u/wildthingking</a> on Reddit. Thank you for building the list!</span>
+        </div>
     </div>
 
     <main id="mainContent" style="display:none">
         <div class="hero">
             <h1 class="hero-title" id="heroTitle">Men's Tall<br><em>Directory</em></h1>
             <p class="hero-meta" id="heroMeta">A curated list of online stores with genuine tall sizing for men 6'2" and above, filterable by inseam, store type, and more.</p>
-        </div>
-
-        <div class="wip" id="wipBanner" style="display:none">
-            <span>Women's directory data curated with help from <a href="https://www.reddit.com/u/wildthingking" target="_blank" rel="noopener">u/wildthingking</a> on Reddit. Thank you!</span>
         </div>
 
         <!-- DIRECTORY CONTROLS -->
@@ -827,9 +826,13 @@ function switchTab(t) {
     document.getElementById('searchWrap').style.display      = isFeatured ? 'none' : '';
     document.getElementById('countPill').style.display       = isFeatured ? 'none' : '';
 
-    if (isFeatured) { renderFeatured(); return; }
+    if (isFeatured) {
+        document.getElementById('wipBanner').style.display = '';
+        renderFeatured();
+        return;
+    }
 
-    document.getElementById('wipBanner').style.display = t==='women' ? '' : 'none';
+    document.getElementById('wipBanner').style.display = 'none';
     document.getElementById('inseamRow').style.display = t==='men'   ? '' : 'none';
     document.getElementById('heroTitle').innerHTML = t==='men'
         ? "Men's Tall<br><em>Directory</em>" : "Women's Tall<br><em>Directory</em>";
