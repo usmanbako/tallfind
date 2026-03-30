@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" id="metaDesc" content="The tall clothing directory. Browse 87 vetted online stores with genuine tall sizing for men and women, filtered by inseam, store type, and more.">
+    <meta name="description" id="metaDesc" content="A curated directory of tall-friendly clothing brands for men and women. Browse tall-only labels, mainstream stores with real tall sizing, and brands grouped by fit and category.">
     <meta name="theme-color" content="#fefae0">
-    <meta property="og:title" content="Tallfind - Tall Clothing Directory">
-    <meta property="og:description" id="ogDesc" content="The tall clothing directory. Browse 87 vetted online stores with genuine tall sizing for men and women, filtered by inseam, store type, and more.">
+    <meta property="og:title" content="Tallfind — Curated Tall Brand Directory">
+    <meta property="og:description" id="ogDesc" content="A curated directory of tall-friendly clothing brands for men and women. Browse tall-only labels, mainstream stores with real tall sizing, and brands grouped by fit and category.">
     <meta property="og:type" content="website">
-    <title>Tallfind - Tall Clothing Directory</title>
+    <meta property="og:image" content="https://americantall.com/cdn/shop/files/ponte_hp_banner_desktop.jpg?v=1770914294&width=1200">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📏</text></svg>">
+    <title>Tallfind — Curated Tall Brand Directory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
     <style>
         :root {
             --bg:           #fefae0;
@@ -25,13 +28,12 @@
             --beige:   #e9edc9;
             --papaya:  #faedcd;
             --bronze:  #d4a373;
-            --purple:  #d4a373; /* mapped to bronze for backward compat */
 
             --serif: 'DM Serif Display', serif;
             --sans:  'Inter', sans-serif;
             --pill:  999px;
             --card-r: 28px;
-            --transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
@@ -41,8 +43,8 @@
             font-family: var(--sans);
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
+            padding-top: 63px;
         }
-        body { overflow-x: hidden; padding-top: 63px; }
         .wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
 
         /* ── PILL ──────────────────────────────── */
@@ -348,54 +350,6 @@
         .feat-cat-name { font-family: var(--serif); font-size: 20px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
         .feat-cat-count { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 4px; }
 
-        /* More picks wrapper */
-        .feat-picks-wrap { max-width: 1600px; margin: 0 auto; padding: 48px 48px 80px; }
-        .feat-more-label {
-            font-size: 11px; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 1.2px; color: var(--muted); margin-bottom: 16px;
-        }
-
-        /* Smaller picks grid */
-        .featured-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-            padding-bottom: 80px;
-        }
-        a.feat-card {
-            display: flex; border: 1px solid var(--border); border-radius: var(--card-r);
-            overflow: hidden; text-decoration: none; color: inherit;
-            transition: var(--transition);
-            background: var(--surface);
-        }
-        a.feat-card:hover { transform: translateY(-3px); background: var(--papaya); border-color: var(--border-strong); }
-        .feat-logo {
-            width: 150px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            padding: 28px 20px; position: relative;
-        }
-        .feat-logo.has-image::after {
-            content: ''; position: absolute; inset: 0;
-            background: rgba(0,0,0,0.15);
-        }
-        .feat-logo .card-initial { font-size: 3.5rem; opacity: 0.2; }
-        .feat-body {
-            flex: 1; padding: 24px 24px 24px 0;
-            display: flex; flex-direction: column; gap: 8px; justify-content: center;
-        }
-        .feat-eyebrow { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
-        .feat-name { font-family: var(--serif); font-size: 22px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; }
-        .feat-blurb { font-size: 13px; color: var(--muted); line-height: 1.6; }
-        .feat-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-        .feat-tag {
-            font-size: 11px; font-weight: 500; padding: 3px 10px;
-            border-radius: var(--pill); border: 1px solid var(--border); color: var(--muted);
-        }
-        .feat-cta {
-            font-size: 12px; font-weight: 500; color: var(--text);
-            margin-top: 6px; display: inline-flex; align-items: center; gap: 4px;
-            transition: gap 0.15s;
-        }
-        a.feat-card:hover .feat-cta { gap: 8px; }
-
         /* ── MODAL ─────────────────────────────── */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(63,50,38,0.4);
@@ -456,10 +410,6 @@
 
         /* ── RESPONSIVE ────────────────────────── */
         @media (max-width: 900px) {
-            .featured-grid { grid-template-columns: 1fr; }
-            .feat-hero { flex-direction: column; min-height: unset; }
-            .feat-hero-img { width: 100%; min-height: 220px; }
-            .feat-hero-body { padding: 32px; }
             .hero { flex-direction: column; align-items: flex-start; gap: 14px; }
             .hero-meta { max-width: 100%; }
             .wrap { padding: 0 20px; }
@@ -685,17 +635,6 @@
 
 </div>
 <script>
-// ── CARD COLOUR MAP ──────────────────────────────────────────────────────────
-const PALETTE = [
-    '#E8EDF3','#EDF3E9','#F3EDE8','#EDE8F3',
-    '#F3E9ED','#E9F3EF','#F3F1E8','#EBE8F3'
-];
-function cardBg(name) {
-    let h = 0;
-    for (const c of name) h = (h * 31 + c.charCodeAt(0)) & 0xFFFF;
-    return PALETTE[h % PALETTE.length];
-}
-
 // ── MEN'S DATA ───────────────────────────────────────────────────────────────
 const menStores = [
     { name:"2Tall",               domain:"2tall.com",             tallSpecific:true,  hasTops:true,  hasBottoms:true,  topSizes:"Tall, Xtra Tall - M–3XL",        inseam:40, inseamD:'40"', waist:'28"–40"',  notes:null, url:"https://www.2tall.com" },
@@ -1204,7 +1143,7 @@ function render() {
 // ── INIT ────────────────────────────────────────────────────────────────────
 // Data-driven meta description
 const _total = menStores.length + womenStores.length;
-const _metaText = `The tall clothing directory. Browse ${_total} vetted online stores with genuine tall sizing for men and women, filtered by inseam, store type, and more.`;
+const _metaText = `A curated directory of ${_total} tall-friendly clothing brands for men and women. Browse tall-only labels, mainstream stores with real tall sizing, and brands grouped by fit and category.`;
 document.getElementById('metaDesc').setAttribute('content', _metaText);
 document.getElementById('ogDesc').setAttribute('content', _metaText);
 
