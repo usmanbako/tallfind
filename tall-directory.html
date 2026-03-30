@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Find online stores with genuine tall sizing for men and women. Browse 85+ retailers filtered by inseam, store type, and more.">
     <meta name="theme-color" content="#111111">
-    <meta property="og:title" content="Tallify - Tall Clothing Directory">
+    <meta property="og:title" content="Tallfind - Tall Clothing Directory">
     <meta property="og:description" content="Find online stores with genuine tall sizing for men and women. Browse 85+ retailers filtered by inseam, store type, and more.">
     <meta property="og:type" content="website">
-    <title>Tallify - Tall Clothing Directory</title>
+    <title>Tallfind - Tall Clothing Directory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -223,6 +223,20 @@
             text-decoration: none; margin-top: 5px; transition: color 0.15s, gap 0.15s;
         }
         .visit-link:hover { color: var(--text); gap: 8px; }
+
+        /* ── FAVORITES ────────────────────────── */
+        .fav-btn {
+            position: absolute; top: 10px; right: 10px; z-index: 5;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 15px; color: var(--muted);
+            transition: transform 0.15s, background 0.15s, color 0.15s;
+            line-height: 1;
+        }
+        .fav-btn:hover { transform: scale(1.12); background: #fff; }
+        .fav-btn.active { color: #e25555; background: #fff; }
 
         /* ── LOGO ──────────────────────────────── */
         a.card { text-decoration: none; color: inherit; cursor: pointer; }
@@ -508,7 +522,7 @@
 <body>
 
 <header>
-    <a class="logo" href="#">Tall<em>ify</em></a>
+    <a class="logo" href="#">Tall<em>find</em></a>
     <nav class="header-nav" role="tablist" aria-label="Directory sections">
         <button class="pill on"  id="tab-featured" role="tab" aria-selected="true"  onclick="switchTab('featured')">★ Featured</button>
         <button class="pill"     id="tab-men"      role="tab" aria-selected="false" onclick="switchTab('men')">Men's</button>
@@ -547,6 +561,7 @@
         <div class="toolbar">
             <div class="filter-pills">
                 <button class="pill on"  id="f-all"          onclick="toggleFilter('all')">All Stores</button>
+                <button class="pill"     id="f-favorites"     onclick="toggleFilter('favorites')">♥ Favorites</button>
                 <button class="pill"     id="f-tallSpecific"  onclick="toggleFilter('tallSpecific')">Tall-Specific ★</button>
                 <button class="pill"     id="f-hasTops"       onclick="toggleFilter('hasTops')">Tops</button>
                 <button class="pill"     id="f-hasBottoms"    onclick="toggleFilter('hasBottoms')">Bottoms</button>
@@ -640,15 +655,15 @@
             <h2 class="modal-title">Site Feedback</h2>
             <button class="modal-close" aria-label="Close" onclick="closeFeedback()">×</button>
         </div>
-        <p class="modal-sub">Found an error, missing a store, or have an idea to improve Tallify? We'd love to hear it.</p>
+        <p class="modal-sub">Found an error, missing a store, or have an idea to improve Tallfind? We'd love to hear it.</p>
 
         <div id="feedbackSuccess" class="form-success">
             Received
-            <p>Thanks for helping make Tallify better.</p>
+            <p>Thanks for helping make Tallfind better.</p>
         </div>
 
         <form id="feedbackForm" action="https://formspree.io/f/xgopvljl" method="POST">
-            <input type="hidden" name="_subject" value="Tallify Feedback">
+            <input type="hidden" name="_subject" value="Tallfind Feedback">
             <div class="form-group">
                 <label class="form-label">What kind of feedback?</label>
                 <select class="form-select" name="type">
@@ -827,7 +842,22 @@ womenStores.sort(_cmp);
 // ── STATE ────────────────────────────────────────────────────────────────────
 let tab       = 'featured';
 let minInseam = 0;
-const AF = { tallSpecific:false, hasTops:false, hasBottoms:false };
+const AF = { favorites:false, tallSpecific:false, hasTops:false, hasBottoms:false };
+
+// ── FAVORITES (localStorage) ────────────────────────────────────────────────
+function getFavs() {
+    try { return JSON.parse(localStorage.getItem('tallfind_favs') || '[]'); } catch { return []; }
+}
+function setFavs(arr) { localStorage.setItem('tallfind_favs', JSON.stringify(arr)); }
+function isFav(name) { return getFavs().includes(name); }
+function toggleFav(name, e) {
+    e.preventDefault(); e.stopPropagation();
+    const favs = getFavs();
+    const idx = favs.indexOf(name);
+    if (idx > -1) favs.splice(idx, 1); else favs.push(name);
+    setFavs(favs);
+    render();
+}
 
 // ── SWITCH TAB ───────────────────────────────────────────────────────────────
 function switchTab(t) {
@@ -995,7 +1025,7 @@ function setInseam(v) {
 }
 
 function clearFilters(silent=false) {
-    ['tallSpecific','hasTops','hasBottoms'].forEach(k => { AF[k]=false; document.getElementById(`f-${k}`).classList.remove('on'); });
+    ['favorites','tallSpecific','hasTops','hasBottoms'].forEach(k => { AF[k]=false; document.getElementById(`f-${k}`).classList.remove('on'); });
     document.getElementById('f-all').classList.add('on');
     minInseam = 0;
     document.querySelectorAll('[data-ins]').forEach(b => b.classList.toggle('on', b.dataset.ins==='0'));
@@ -1022,7 +1052,9 @@ function render() {
     const q    = document.getElementById('searchInput').value.toLowerCase().trim();
     const data = tab==='men' ? menStores : womenStores;
 
+    const favs = getFavs();
     let list = data.filter(s => {
+        if (AF.favorites    && !favs.includes(s.name)) return false;
         if (AF.tallSpecific && !s.tallSpecific) return false;
         if (AF.hasTops      && !s.hasTops)      return false;
         if (AF.hasBottoms   && !s.hasBottoms)   return false;
@@ -1074,6 +1106,7 @@ function render() {
         return `
         ${tag}
             <div class="card-img" style="background:${bg}">
+                <button class="fav-btn${favs.includes(s.name) ? ' active' : ''}" onclick="toggleFav('${s.name.replace(/'/g,"\\'")}',event)" title="${favs.includes(s.name) ? 'Remove from favorites' : 'Add to favorites'}">${favs.includes(s.name) ? '♥' : '♡'}</button>
                 ${logoHtml}
                 ${initialHtml}
                 ${strip}
