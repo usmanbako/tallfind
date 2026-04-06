@@ -281,6 +281,10 @@ function renderHomepage() {
     marqueeNames = marqueeNames.slice(0, 16);
     var marqueeHTML = marqueeNames.map(function(n) { return '<span class="hp-brand">' + n + '</span>'; }).join('');
 
+    var _months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var _now = new Date();
+    var updatedStr = 'Updated ' + _months[_now.getMonth()] + ' ' + _now.getFullYear();
+
     document.getElementById('homepageContent').innerHTML =
     // ── HERO ──
     '<section class="hp-hero-section">'
@@ -293,7 +297,7 @@ function renderHomepage() {
     +     '<p>A hand-reviewed directory of ' + total + ' tall-friendly stores for men and women. Every store verified, every size range confirmed.</p>'
     +     '<button class="hp-cta" onclick="switchTab(\'men\')">Browse the Directory ' + arrowSvg + '</button>'
     +   '</div>'
-    +   '<div class="hp-hero-meta"><span>' + total + ' Stores Reviewed</span><span>Updated March 2026</span></div>'
+    +   '<div class="hp-hero-meta"><span>' + total + ' Stores Reviewed</span><span>' + updatedStr + '</span></div>'
     + '</div>'
     + '</section>'
 
@@ -666,7 +670,7 @@ async function initApp() {
             });
         }
     } catch (error) {
-        document.getElementById('homepageContent').innerHTML = '<div class="wrap" style="padding-top:24px;padding-bottom:24px;"><p>We could not load the directory data.</p><p style="margin-top:8px;">If you opened this file directly, run it from a local server (for example: <code>python -m http.server 5500</code>) and reload.</p></div>';
+        document.getElementById('homepageContent').innerHTML = '<div class="wrap" style="padding-top:24px;padding-bottom:24px;"><p>We could not load the directory data.</p><p style="margin-top:8px;"><button class="pill pill-sm" onclick="location.reload()">Try again</button></p></div>';
     }
 }
 

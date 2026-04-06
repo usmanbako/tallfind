@@ -61,7 +61,14 @@
 
 <!-- HOMEPAGE -->
 <div id="homepageSection">
-    <div id="homepageContent"></div>
+    <div id="homepageContent">
+        <noscript>
+            <div class="wrap" style="padding-top:32px">
+                <h1 style="font-family:var(--serif);font-size:2.4rem;letter-spacing:-0.03em;margin-bottom:12px">Find tall clothing brands that actually fit.</h1>
+                <p style="color:var(--muted);max-width:600px;line-height:1.6">A hand-reviewed directory of tall-friendly clothing stores for men and women. Every store verified, every size range confirmed. Enable JavaScript to browse the full directory.</p>
+            </div>
+        </noscript>
+    </div>
 </div>
 
 <div class="wrap">
@@ -232,10 +239,7 @@
             localStorage.setItem(KEY, choice);
             if (choice === 'accepted') {
                 gtag('consent', 'update', {
-                    ad_storage: 'granted',
-                    analytics_storage: 'granted',
-                    ad_user_data: 'granted',
-                    ad_personalization: 'granted'
+                    analytics_storage: 'granted'
                 });
                 configureGA();
             } else {
