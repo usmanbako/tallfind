@@ -1,0 +1,67 @@
+%PDF-1.4
+%
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 2784 >>
+stream
+BT /F1 16 Tf 50 760 Td (Tallfind ? One-Page App Summary) Tj ET
+BT /F1 10 Tf 50 734 Td () Tj ET
+BT /F1 10 Tf 50 716 Td (What it is) Tj ET
+BT /F1 10 Tf 50 698 Td (- Tallfind is a static web directory for finding tall-friendly clothing stores.) Tj ET
+BT /F1 10 Tf 50 680 Td (- It curates hand-reviewed entries for men and women, with verified sizing metadata.) Tj ET
+BT /F1 10 Tf 50 662 Td () Tj ET
+BT /F1 10 Tf 50 644 Td (Who it's for) Tj ET
+BT /F1 10 Tf 50 626 Td (- Primary persona: tall shoppers \(men ~6'2"+ and women ~5'9"+\) who struggle to find) Tj ET
+BT /F1 10 Tf 50 608 Td (  reliable tall sizing across brands.) Tj ET
+BT /F1 10 Tf 50 590 Td () Tj ET
+BT /F1 10 Tf 50 572 Td (What it does) Tj ET
+BT /F1 10 Tf 50 554 Td (- Loads separate men's and women's store datasets from local JSON files.) Tj ET
+BT /F1 10 Tf 50 536 Td (- Provides tabbed browsing \(Home, Men's, Women's\) with URL-synced filter state.) Tj ET
+BT /F1 10 Tf 50 518 Td (- Supports keyword search across store metadata \(name, sizing, notes, categories\).) Tj ET
+BT /F1 10 Tf 50 500 Td (- Filters by tall-only brands, tops, bottoms, favorites, and men's minimum inseam.) Tj ET
+BT /F1 10 Tf 50 482 Td (- Offers sort modes \(tall-first, A?Z, and inseam for men's listings\).) Tj ET
+BT /F1 10 Tf 50 464 Td (- Saves user favorites and analytics consent in localStorage.) Tj ET
+BT /F1 10 Tf 50 446 Td (- Collects store submissions and feedback via Formspree modal forms.) Tj ET
+BT /F1 10 Tf 50 428 Td () Tj ET
+BT /F1 10 Tf 50 410 Td (How it works \(repo evidence\)) Tj ET
+BT /F1 10 Tf 50 392 Td (- Front end: index.html + assets/styles.css + assets/app.js rendered in-browser.) Tj ET
+BT /F1 10 Tf 50 374 Td (- Data layer: static JSON files \(data/men.json, data/women.json, data/featured.json\).) Tj ET
+BT /F1 10 Tf 50 356 Td (- Runtime flow: browser fetches JSON -> JS stores state -> applies search/filter/sort ->) Tj ET
+BT /F1 10 Tf 50 338 Td (  renders cards and homepage sections dynamically.) Tj ET
+BT /F1 10 Tf 50 320 Td (- Integrations: Google Analytics \(gtag with consent banner\), Formspree form endpoints.) Tj ET
+BT /F1 10 Tf 50 302 Td (- Backend service/API/database: Not found in repo.) Tj ET
+BT /F1 10 Tf 50 284 Td () Tj ET
+BT /F1 10 Tf 50 266 Td (How to run \(minimal\)) Tj ET
+BT /F1 10 Tf 50 248 Td (1\) From repo root, start any static web server \(example\):) Tj ET
+BT /F1 10 Tf 50 230 Td (   python3 -m http.server 8000) Tj ET
+BT /F1 10 Tf 50 212 Td (2\) Open http://localhost:8000 in a browser.) Tj ET
+BT /F1 10 Tf 50 194 Td (3\) Use the directory tabs and filters; submissions/feedback post to Formspree endpoints.) Tj ET
+BT /F1 10 Tf 50 176 Td () Tj ET
+BT /F1 10 Tf 50 158 Td (Notes) Tj ET
+BT /F1 10 Tf 50 140 Td (- Formal local setup docs beyond a one-line README are Not found in repo.) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000247 00000 n 
+0000000317 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+3153
+%%EOF
