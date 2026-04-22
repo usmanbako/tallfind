@@ -180,7 +180,8 @@
         .hp-marquee { overflow: hidden; padding: 32px 0 72px; }
         .hp-marquee-track {
             display: flex; white-space: nowrap; gap: 64px;
-            animation: hp-scroll 35s linear infinite;
+            width: max-content;
+            animation: hp-scroll 60s linear infinite;
             will-change: transform;
         }
         .hp-brand {
@@ -482,7 +483,7 @@
 
             .hp-hero-section { padding: 0 16px; margin-bottom: 48px; }
             .hp-hero { height: 70vh; min-height: 420px; }
-            .hp-marquee-track { animation-duration: 18s; }
+            .hp-marquee-track { animation-duration: 45s; }
             .hp-browse-grid { grid-template-columns: 1fr; padding: 0 16px 48px; }
             .hp-section-label { padding: 0 16px 16px; }
             .hp-marquee { padding: 20px 0 48px; }
@@ -502,7 +503,7 @@
             .hp-hero { height: 60vh; min-height: 360px; }
             .hp-hero-content h1 { font-size: 2rem; }
             .hp-hero-meta { display: none; }
-            .hp-marquee-track { animation-duration: 12s; }
+            .hp-marquee-track { animation-duration: 35s; }
             .hp-browse-card { padding: 28px 24px; min-height: 160px; }
             .hp-brand { font-size: 32px; }
             .dir-title { font-size: 1.7rem; }
