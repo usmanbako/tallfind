@@ -157,6 +157,30 @@
         });
     }
 
+    // ── Rewrite outbound <a> tags using affiliate config ────────────────────
+    function applyAffiliates() {
+        if (!window.Tallfind || !window.Tallfind.affiliates) return;
+        window.Tallfind.affiliates.ready.then(function () {
+            var cfg = window.Tallfind.affiliates.getConfig() || {};
+            var links = document.querySelectorAll('a[data-store-slug][data-store-url]');
+            for (var i = 0; i < links.length; i++) {
+                var a = links[i];
+                var slug = a.dataset.storeSlug;
+                var rawUrl = a.dataset.storeUrl;
+                if (!slug || !rawUrl || !cfg[slug]) continue;
+                var transformed = window.Tallfind.affiliates.affiliateUrl({
+                    name: a.dataset.storeName || slug,
+                    url: rawUrl,
+                    slug: slug
+                });
+                if (transformed) {
+                    a.href = transformed;
+                    a.dataset.affiliateNetwork = cfg[slug].network || 'none';
+                }
+            }
+        });
+    }
+
     // ── Bootstrap ────────────────────────────────────────────────────────────
     function mount() {
         var header = document.getElementById('siteHeader');
@@ -165,6 +189,7 @@
         if (footer) footer.outerHTML = footerHTML();
         renderConsentBanner();
         installOutboundTracker();
+        applyAffiliates();
     }
 
     if (document.readyState === 'loading') {
