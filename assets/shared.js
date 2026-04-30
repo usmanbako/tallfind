@@ -46,36 +46,46 @@
         + '</header>';
 
     function footerHTML() {
-        return '<footer class="hp-footer">'
-            + '<div class="hp-footer-inner">'
-            +   '<div class="hp-footer-grid">'
-            +     '<div class="hp-footer-brand">'
-            +       '<div class="hp-footer-logo">Tall<em>find</em></div>'
-            +       '<p>Curated tall fashion<br>for men and women.</p>'
-            +     '</div>'
-            +     '<div class="hp-footer-col">'
-            +       '<h5>Directory</h5>'
-            +       '<ul>'
-            +         '<li><a href="/?tab=men">Men’s Tall</a></li>'
-            +         '<li><a href="/?tab=women">Women’s Tall</a></li>'
-            +         '<li><a href="/?tab=men&ft=tallSpecific">Tall-Only Brands</a></li>'
-            +       '</ul>'
-            +     '</div>'
-            +     '<div class="hp-footer-col">'
-            +       '<h5>Trust</h5>'
-            +       '<ul>'
-            +         '<li><a href="/about/">About</a></li>'
-            +         '<li><a href="/how-we-review/">How We Review</a></li>'
-            +         '<li><a href="/privacy/">Privacy</a></li>'
-            +         '<li><a href="/terms/">Terms</a></li>'
-            +       '</ul>'
-            +     '</div>'
-            +   '</div>'
-            +   '<div class="hp-footer-bottom">'
-            +     '<span>© ' + new Date().getFullYear() + ' Tallfind · Some outbound links may be affiliate links. <a href="/how-we-review/#disclosure" style="color:rgba(255,253,246,0.6);text-decoration:underline">How this works</a>.</span>'
-            +   '</div>'
-            + '</div>'
-            + '</footer>';
+        var year = new Date().getFullYear();
+        return ‘<footer class="hp-footer">’
+            + ‘<div class="hp-footer-inner">’
+            +   ‘<div class="hp-footer-grid">’
+            +     ‘<div class="hp-footer-brand">’
+            +       ‘<div class="hp-footer-logo">Tall<em>find</em></div>’
+            +       ‘<p>Curated tall fashion<br>for men and women.</p>’
+            +     ‘</div>’
+            +     ‘<div class="hp-footer-col">’
+            +       ‘<h5>Directory</h5>’
+            +       ‘<ul>’
+            +         ‘<li><a href="/?tab=men">Men’s Tall</a></li>’
+            +         ‘<li><a href="/?tab=women">Women’s Tall</a></li>’
+            +         ‘<li><a href="/?tab=men&ft=tallSpecific">Tall-Only Brands</a></li>’
+            +         ‘<li><a href="/?tab=men&ins=38">38”+ Inseam</a></li>’
+            +       ‘</ul>’
+            +     ‘</div>’
+            +     ‘<div class="hp-footer-col">’
+            +       ‘<h5>Trust</h5>’
+            +       ‘<ul>’
+            +         ‘<li><a href="/about/">About</a></li>’
+            +         ‘<li><a href="/how-we-review/">How We Review</a></li>’
+            +         ‘<li><a href="/privacy/">Privacy</a></li>’
+            +         ‘<li><a href="/terms/">Terms</a></li>’
+            +       ‘</ul>’
+            +     ‘</div>’
+            +     ‘<div class="hp-footer-col">’
+            +       ‘<h5>Resources</h5>’
+            +       ‘<ul>’
+            +         ‘<li><a href="/?modal=submit">Submit a Store</a></li>’
+            +         ‘<li><a href="/?modal=feedback">Send Feedback</a></li>’
+            +       ‘</ul>’
+            +     ‘</div>’
+            +   ‘</div>’
+            +   ‘<div class="hp-footer-bottom">’
+            +     ‘<span>© ‘ + year + ‘ Tallfind · Some outbound links may be affiliate links. <a href="/how-we-review/#disclosure" style="color:rgba(255,253,246,0.6);text-decoration:underline">How this works</a>.</span>’
+            +     ‘<span>Data sourced from community research by <a href="https://www.reddit.com/u/wildthingking" target="_blank" rel="noopener" style="color:rgba(255,253,246,0.5);text-decoration:underline">u/wildthingking</a></span>’
+            +   ‘</div>’
+            + ‘</div>’
+            + ‘</footer>’;
     }
 
     // ── Consent banner ───────────────────────────────────────────────────────
