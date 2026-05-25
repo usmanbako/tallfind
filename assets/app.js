@@ -355,6 +355,7 @@ function renderHomepage() {
     +         '<ul>'
     +           '<li><a href="/about/" style="color:inherit;text-decoration:none">About</a></li>'
     +           '<li><a href="/how-we-review/" style="color:inherit;text-decoration:none">How We Review</a></li>'
+    +           '<li><a href="/resources/">Tall Resources</a></li>'
     +           '<li><a href="/privacy/" style="color:inherit;text-decoration:none">Privacy</a></li>'
     +           '<li><a href="/terms/" style="color:inherit;text-decoration:none">Terms</a></li>'
     +         '</ul>'
