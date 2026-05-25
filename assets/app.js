@@ -1,10 +1,18 @@
 let menStores = [];
 let womenStores = [];
 
+function resolveDataUrl(fileName) {
+    try {
+        return new URL('data/' + fileName, window.location.origin + '/').toString();
+    } catch (e) {
+        return '/data/' + fileName;
+    }
+}
+
 async function loadData() {
     const [menRes, womenRes] = await Promise.all([
-        fetch('data/men.json'),
-        fetch('data/women.json')
+        fetch(resolveDataUrl('men.json')),
+        fetch(resolveDataUrl('women.json'))
     ]);
     if (!menRes.ok || !womenRes.ok) {
         throw new Error('Failed to load directory data.');

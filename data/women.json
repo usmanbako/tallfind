@@ -429,24 +429,18 @@
     "url": "https://www.ttyalondon.com"
   },
   {
-<<<<<<< ours
-    "name": "Yemzi",
-=======
     "name": "YEMZI",
->>>>>>> theirs
+    "name": "Yemzi",
     "domain": "yemzi.com",
     "tallSpecific": true,
     "hasTops": true,
     "hasBottoms": true,
-<<<<<<< ours
-    "topSizes": "S–2XL",
-    "bottomSizes": "Sizes 0–20, up to 38\" inseam",
-    "notes": "Premium, ethically made clothing for tall women (5'8\"+); sustainable materials and international shipping.",
-=======
     "topSizes": "S-2XL",
     "bottomSizes": "38\" inseam or sizes 0–20",
     "notes": "Premium-quality, ethically made clothing designed for tall women (5'8\"+), with sustainable materials, bold prints, and international shipping.",
->>>>>>> theirs
+    "topSizes": "S–2XL",
+    "bottomSizes": "Sizes 0–20, up to 38\" inseam",
+    "notes": "Premium, ethically made clothing for tall women (5'8\"+); sustainable materials and international shipping.",
     "url": "https://yemzi.com/"
   },
   {
