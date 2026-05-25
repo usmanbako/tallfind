@@ -662,10 +662,10 @@ async function initApp() {
         applyURLStateToUI(st);
         if (st.tab !== 'home') render();
         _skipUrlSync = false;
+        var modalParam = new URLSearchParams(location.search).get('modal');
         const path = st.tab === 'home' ? location.pathname : location.pathname + buildQueryString();
         history.replaceState({ tab: st.tab }, '', path);
         _historyReady = true;
-        var modalParam = new URLSearchParams(location.search).get('modal');
         if (modalParam === 'submit') { openModal(); }
         else if (modalParam === 'feedback') { openFeedback(); }
         window.addEventListener('popstate', function () {
