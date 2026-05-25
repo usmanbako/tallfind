@@ -52,7 +52,8 @@ function readURLState() {
         q: p.get('q') || '',
         sort,
         ins: [0, 34, 36, 38, 40, 42].includes(ins) ? ins : 0,
-        ft
+        ft,
+        modal: p.get('modal')
     };
 }
 
@@ -664,9 +665,8 @@ async function initApp() {
         const path = st.tab === 'home' ? location.pathname : location.pathname + buildQueryString();
         history.replaceState({ tab: st.tab }, '', path);
         _historyReady = true;
-        var modalParam = new URLSearchParams(location.search).get('modal');
-        if (modalParam === 'submit') { openModal(); }
-        else if (modalParam === 'feedback') { openFeedback(); }
+        if (st.modal === 'submit') { openModal(); }
+        else if (st.modal === 'feedback') { openFeedback(); }
         window.addEventListener('popstate', function () {
             _skipUrlSync = true;
             const next = readURLState();
