@@ -57,10 +57,11 @@
 
 <header>
     <button class="logo" onclick="switchTab('home');window.scrollTo(0,0)" aria-label="Tallfind home">Tall<em>find</em></button>
-    <nav class="header-nav" role="tablist" aria-label="Directory sections">
+    <nav class="header-nav" aria-label="Directory sections">
         <button class="pill pill-sm on" id="tab-home"  role="tab" aria-selected="true"  onclick="switchTab('home')">Home</button>
         <button class="pill pill-sm"    id="tab-men"   role="tab" aria-selected="false" onclick="switchTab('men')">Men's</button>
         <button class="pill pill-sm"    id="tab-women" role="tab" aria-selected="false" onclick="switchTab('women')">Women's</button>
+        <a class="pill pill-sm" href="/resources/">Resources</a>
     </nav>
     <div class="search-wrap">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -68,7 +69,6 @@
         <input type="text" id="searchInput" placeholder="Search by store, size, inseam...">
     </div>
     <div class="header-actions">
-        <a class="pill pill-sm" href="/resources/">Resources</a>
         <button class="pill pill-ghost pill-sm" onclick="openModal()">+<span class="btn-label"> Submit</span></button>
         <button class="pill pill-ghost pill-sm" onclick="openFeedback()">&#x2709;<span class="btn-label"> Feedback</span></button>
     </div>
