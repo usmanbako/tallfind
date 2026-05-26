@@ -1,10 +1,18 @@
 let menStores = [];
 let womenStores = [];
 
+function resolveDataUrl(fileName) {
+    try {
+        return new URL('data/' + fileName, window.location.origin + '/').toString();
+    } catch (e) {
+        return '/data/' + fileName;
+    }
+}
+
 async function loadData() {
     const [menRes, womenRes] = await Promise.all([
-        fetch('data/men.json'),
-        fetch('data/women.json')
+        fetch(resolveDataUrl('men.json')),
+        fetch(resolveDataUrl('women.json'))
     ]);
     if (!menRes.ok || !womenRes.ok) {
         throw new Error('Failed to load directory data.');
@@ -52,7 +60,8 @@ function readURLState() {
         q: p.get('q') || '',
         sort,
         ins: [0, 34, 36, 38, 40, 42].includes(ins) ? ins : 0,
-        ft
+        ft,
+        modal: p.get('modal')
     };
 }
 
@@ -354,6 +363,7 @@ function renderHomepage() {
     +         '<ul>'
     +           '<li><a href="/about/" style="color:inherit;text-decoration:none">About</a></li>'
     +           '<li><a href="/how-we-review/" style="color:inherit;text-decoration:none">How We Review</a></li>'
+    +           '<li><a href="/resources/">Tall Resources</a></li>'
     +           '<li><a href="/privacy/" style="color:inherit;text-decoration:none">Privacy</a></li>'
     +           '<li><a href="/terms/" style="color:inherit;text-decoration:none">Terms</a></li>'
     +         '</ul>'
@@ -664,9 +674,8 @@ async function initApp() {
         const path = st.tab === 'home' ? location.pathname : location.pathname + buildQueryString();
         history.replaceState({ tab: st.tab }, '', path);
         _historyReady = true;
-        var modalParam = new URLSearchParams(location.search).get('modal');
-        if (modalParam === 'submit') { openModal(); }
-        else if (modalParam === 'feedback') { openFeedback(); }
+        if (st.modal === 'submit') { openModal(); }
+        else if (st.modal === 'feedback') { openFeedback(); }
         window.addEventListener('popstate', function () {
             _skipUrlSync = true;
             const next = readURLState();
