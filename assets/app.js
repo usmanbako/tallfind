@@ -671,8 +671,8 @@ async function initApp() {
         applyURLStateToUI(st);
         if (st.tab !== 'home') render();
         _skipUrlSync = false;
-        const path = st.tab === 'home' ? location.pathname : location.pathname + buildQueryString();
-        history.replaceState({ tab: st.tab }, '', path);
+        const path = tab === 'home' ? location.pathname : location.pathname + buildQueryString();
+        history.replaceState({ tab }, '', path);
         _historyReady = true;
         if (st.modal === 'submit') { openModal(); }
         else if (st.modal === 'feedback') { openFeedback(); }
@@ -683,6 +683,7 @@ async function initApp() {
             applyURLStateToUI(next);
             if (next.tab !== 'home') render();
             _skipUrlSync = false;
+            replaceFilterURL();
         });
         const sortSel = document.getElementById('sortSelect');
         if (sortSel) {
