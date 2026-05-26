@@ -100,7 +100,7 @@ function pushTabURL() {
 function applyURLStateToUI(st) {
     document.getElementById('searchInput').value = st.q;
     listSort = st.sort;
-    minInseam = st.ins;
+    minInseam = st.tab === 'men' ? st.ins : 0;
     ['favorites', 'tallSpecific', 'hasTops', 'hasBottoms'].forEach(k => {
         AF[k] = st.ft.includes(k);
         const el = document.getElementById('f-' + k);
@@ -110,7 +110,7 @@ function applyURLStateToUI(st) {
     const fAll = document.getElementById('f-all');
     if (fAll) fAll.classList.toggle('on', !any);
     document.querySelectorAll('[data-ins]').forEach(b =>
-        b.classList.toggle('on', +b.dataset.ins === st.ins));
+        b.classList.toggle('on', +b.dataset.ins === minInseam));
     const sel = document.getElementById('sortSelect');
     if (sel) {
         syncSortSelectOptions();
@@ -124,8 +124,8 @@ function syncSortSelectOptions() {
     if (!sel) return;
     const optInseam = sel.querySelector('option[value="inseam"]');
     if (optInseam) {
-        optInseam.disabled = tab === 'women';
-        if (tab === 'women' && listSort === 'inseam') {
+        optInseam.disabled = tab !== 'men';
+        if (tab !== 'men' && listSort === 'inseam') {
             listSort = 'tall';
             sel.value = 'tall';
         }
@@ -133,7 +133,7 @@ function syncSortSelectOptions() {
 }
 
 function normalizeTab(v) {
-    return v === 'men' || v === 'women' || v === 'home' ? v : 'home';
+    return v === 'all' || v === 'men' || v === 'women' || v === 'home' ? v : 'home';
 }
 
 // ── FAVORITES ────────────────────────────────────────────────────────────────
@@ -224,8 +224,9 @@ function matchesSearch(s, q, isMen) {
 function switchTab(t, opts) {
     opts = opts || {};
     tab = normalizeTab(t);
-    ['home', 'men', 'women'].forEach(id => {
+    ['home', 'all', 'men', 'women'].forEach(id => {
         const el = document.getElementById('tab-' + id);
+        if (!el) return;
         el.classList.toggle('on', tab === id);
         el.setAttribute('aria-selected', tab === id);
     });
@@ -248,10 +249,14 @@ function switchTab(t, opts) {
     syncSortSelectOptions();
 
     // Update directory hero
-    document.getElementById('dirTitle').textContent = tab === 'men' ? "Men's Tall" : "Women's Tall";
+    document.getElementById('dirTitle').textContent = tab === 'men'
+        ? "Men's Tall"
+        : tab === 'women' ? "Women's Tall" : 'All Tall Stores';
     document.getElementById('dirMeta').textContent = tab === 'men'
         ? menStores.length + ' hand-checked stores with genuine tall sizing for men 6\'2" and above. Filter by inseam, store type, and more.'
-        : womenStores.length + ' hand-checked stores with tall sizing for women 5\'9" and above. Filter by store type, sizing, and more.';
+        : tab === 'women'
+            ? womenStores.length + ' hand-checked stores with tall sizing for women 5\'9" and above. Filter by store type, sizing, and more.'
+            : (menStores.length + womenStores.length) + ' hand-checked stores across men\'s and women\'s tall sizing. Search across the full directory, then narrow by category.';
 
     clearFilters(true, !!opts.preserveSearch);
 
@@ -290,8 +295,6 @@ function renderHomepage() {
         if (!seen[s.name]) { marqueeNames.push(s.name); seen[s.name] = true; }
     });
     marqueeNames = marqueeNames.slice(0, 16);
-    var marqueeHTML = marqueeNames.map(function(n) { return '<span class="hp-brand">' + escapeHtml(n) + '</span>'; }).join('');
-
     var _months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     var _now = new Date();
     var updatedStr = 'Updated ' + _months[_now.getMonth()] + ' ' + _now.getFullYear();
@@ -300,34 +303,43 @@ function renderHomepage() {
     // ── HERO ──
     '<section class="hp-hero-section">'
     + '<div class="hp-hero">'
-    +   '<picture class="hp-hero-pic">'
-    +     '<source media="(max-width: 640px)" type="image/webp" srcset="assets/hero-mobile.webp">'
-    +     '<source media="(max-width: 640px)" type="image/jpeg" srcset="assets/hero-mobile.jpg">'
-    +     '<source type="image/webp" srcset="assets/hero.webp">'
-    +     '<img class="hp-hero-img" src="assets/hero.jpg" alt="Three tall figures in curated fits \u2014 denim and tee, black vest and trousers, cream sweater and chocolate pants" loading="eager" fetchpriority="high">'
-    +   '</picture>'
-    +   '<div class="hp-hero-overlay"></div>'
     +   '<div class="hp-hero-content">'
     +     '<div class="hp-pill">Curated Tall Clothing Directory</div>'
-    +     '<h1>Find brands that actually fit.</h1>'
-    +     '<p>A hand-reviewed directory of ' + total + ' tall-friendly stores for men and women. Every store verified, every size range confirmed.</p>'
-    +     '<button class="hp-cta" onclick="switchTab(\'men\')">Browse the Directory ' + arrowSvg + '</button>'
+    +     '<h1>Find tall clothing brands that actually fit.</h1>'
+    +     '<p>A searchable directory of ' + total + ' hand-reviewed tall-friendly stores for men and women. Every store verified, every size range confirmed.</p>'
+    +     '<form class="hp-search-form" onsubmit="startHomepageSearch(); return false;">'
+    +       '<label for="homepageSearchInput" class="sr-only">Search all tall stores</label>'
+    +       '<input id="homepageSearchInput" type="search" placeholder="Search stores, sizes, inseams, categories..." autocomplete="off">'
+    +       '<button type="submit">Search all stores</button>'
+    +     '</form>'
+    +     '<div class="hp-proof-row">'
+    +       '<span><strong>' + total + '</strong> reviewed stores</span>'
+    +       '<span><strong>' + menStores.length + '</strong> men\'s options</span>'
+    +       '<span><strong>' + womenStores.length + '</strong> women\'s options</span>'
+    +       '<span>' + updatedStr + '</span>'
+    +     '</div>'
     +   '</div>'
-    +   '<div class="hp-hero-meta"><span>' + total + ' Stores Reviewed</span><span>' + updatedStr + '</span></div>'
     + '</div>'
     + '</section>'
 
     // ── BROWSE CARDS ──
     + '<div class="hp-section-label">Browse by Category</div>'
     + '<section class="hp-browse-grid">'
-    +   '<div class="hp-browse-card hp-browse-card-sage" role="button" tabindex="0" onclick="switchTab(\'men\')" onkeydown="if(event.key===\'Enter\')this.click()">'
+    +   '<div class="hp-browse-card hp-browse-card-all" role="button" tabindex="0" onclick="switchTab(\'all\')" onkeydown="if(event.key===\'Enter\')this.click()">'
+    +     '<div>'
+    +       '<h2>All Stores</h2>'
+    +       '<p>Search the complete men\'s and women\'s tall directory at once</p>'
+    +     '</div>'
+    +     '<span class="hp-browse-cta">Search everything ' + arrowSvg + '</span>'
+    +   '</div>'
+    +   '<div class="hp-browse-card hp-browse-card-men" role="button" tabindex="0" onclick="switchTab(\'men\')" onkeydown="if(event.key===\'Enter\')this.click()">'
     +     '<div>'
     +       '<h2>Men\u2019s Tall</h2>'
     +       '<p>' + menStores.length + ' vetted stores with inseams up to ' + maxIns + '"</p>'
     +     '</div>'
     +     '<span class="hp-browse-cta">Browse directory ' + arrowSvg + '</span>'
     +   '</div>'
-    +   '<div class="hp-browse-card hp-browse-card-sand" role="button" tabindex="0" onclick="switchTab(\'women\')" onkeydown="if(event.key===\'Enter\')this.click()">'
+    +   '<div class="hp-browse-card hp-browse-card-women" role="button" tabindex="0" onclick="switchTab(\'women\')" onkeydown="if(event.key===\'Enter\')this.click()">'
     +     '<div>'
     +       '<h2>Women\u2019s Tall</h2>'
     +       '<p>' + womenStores.length + ' vetted stores with extended length options</p>'
@@ -335,11 +347,6 @@ function renderHomepage() {
     +     '<span class="hp-browse-cta">Browse directory ' + arrowSvg + '</span>'
     +   '</div>'
     + '</section>'
-
-    // ── BRAND MARQUEE ──
-    + '<div class="hp-marquee">'
-    +   '<div class="hp-marquee-track">' + marqueeHTML + marqueeHTML + '</div>'
-    + '</div>'
 
     // ── FOOTER ──
     + '<footer class="hp-footer">'
@@ -352,6 +359,7 @@ function renderHomepage() {
     +       '<div class="hp-footer-col">'
     +         '<h5>Directory</h5>'
     +         '<ul>'
+    +           '<li onclick="switchTab(\'all\')">All Stores</li>'
     +           '<li onclick="switchTab(\'men\')">Men\u2019s Tall</li>'
     +           '<li onclick="switchTab(\'women\')">Women\u2019s Tall</li>'
     +           '<li onclick="switchTab(\'men\',{filter:\'tallSpecific\'})">Tall-Only Brands</li>'
@@ -382,6 +390,13 @@ function renderHomepage() {
     +     '</div>'
     +   '</div>'
     + '</footer>';
+}
+
+function startHomepageSearch() {
+    const homeInput = document.getElementById('homepageSearchInput');
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput && homeInput) searchInput.value = homeInput.value.trim();
+    switchTab('all', { preserveSearch: true });
 }
 
 // ── MODALS ───────────────────────────────────────────────────────────────────
@@ -434,9 +449,9 @@ document.addEventListener('keydown', e => {
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
     if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && document.activeElement?.getAttribute('role') === 'tab') {
-        const tabs = ['home', 'men', 'women'];
+        const tabs = ['home', 'all', 'men', 'women'];
         const idx = tabs.indexOf(tab);
-        const next = e.key === 'ArrowRight' ? (idx + 1) % 3 : (idx + 2) % 3;
+        const next = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx + tabs.length - 1) % tabs.length;
         switchTab(tabs[next]);
         document.getElementById('tab-' + tabs[next]).focus();
         e.preventDefault();
@@ -517,12 +532,12 @@ document.getElementById('searchInput').addEventListener('input', () => {
     updateClear();
     const q = document.getElementById('searchInput').value.trim();
     if (tab === 'home' && q) {
-        switchTab('men', { preserveSearch: true });
+        switchTab('all', { preserveSearch: true });
         return;
     }
     clearTimeout(_searchTimer);
     _searchTimer = setTimeout(function () {
-        if (tab === 'men' || tab === 'women') {
+        if (tab === 'all' || tab === 'men' || tab === 'women') {
             const ql = document.getElementById('searchInput').value.trim().length;
             if (ql) trackEvent('search', { query_length: ql, tab });
         }
@@ -550,17 +565,21 @@ function sortFlatInseamMen(list) {
 // ── RENDER ───────────────────────────────────────────────────────────────────
 function render() {
     const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const isAll = tab === 'all';
     const isMen = tab === 'men';
-    const data = isMen ? menStores : womenStores;
+    const data = isAll
+        ? menStores.map(s => ({ store: s, isMen: true })).concat(womenStores.map(s => ({ store: s, isMen: false })))
+        : (isMen ? menStores : womenStores).map(s => ({ store: s, isMen }));
     const favs = getFavs();
 
-    let list = data.filter(s => {
+    let list = data.filter(item => {
+        const s = item.store;
         if (AF.favorites && !favs.includes(s.name)) return false;
         if (AF.tallSpecific && !s.tallSpecific) return false;
         if (AF.hasTops && !s.hasTops) return false;
         if (AF.hasBottoms && !s.hasBottoms) return false;
-        if (isMen && minInseam > 0 && (s.inseam === null || s.inseam < minInseam)) return false;
-        if (!matchesSearch(s, q, isMen)) return false;
+        if (item.isMen && minInseam > 0 && (s.inseam === null || s.inseam < minInseam)) return false;
+        if (!matchesSearch(s, q, item.isMen)) return false;
         return true;
     });
 
@@ -569,23 +588,25 @@ function render() {
     document.getElementById('noResults').style.display = list.length ? 'none' : '';
     if (!list.length) return;
 
-    const tallOnly = list.filter(s => s.tallSpecific);
-    const mainstream = list.filter(s => !s.tallSpecific);
+    const tallOnly = list.filter(item => item.store.tallSpecific);
+    const mainstream = list.filter(item => !item.store.tallSpecific);
 
     let useFlat = listSort === 'az' || (listSort === 'inseam' && !isMen);
     let flatList = null;
     if (listSort === 'inseam' && isMen) {
-        flatList = sortFlatInseamMen(list);
+        flatList = sortFlatInseamMen(list.map(item => item.store)).map(s => ({ store: s, isMen: true }));
         useFlat = true;
     } else if (listSort === 'az' || (listSort === 'inseam' && !isMen)) {
-        flatList = nameSort(list);
+        flatList = nameSort(list.map(item => item.store)).map(s => list.find(item => item.store === s));
         useFlat = true;
     }
 
     let html = '';
 
     const af = (window.Tallfind && window.Tallfind.affiliates) || null;
-    const renderCard = (s, idx) => {
+    const renderCard = (item, idx) => {
+        const s = item.store;
+        const cardIsMen = item.isMen;
         const hasUrl = !!s.url;
         const finalUrl = af ? af.affiliateUrl(s) : s.url;
         const safeHref = safeUrl(finalUrl);
@@ -593,9 +614,9 @@ function render() {
         const storeSlug = af ? af.slugFor(s) : '';
         const network = af ? af.networkFor(s) : 'none';
         const catLabel = s.tallSpecific ? 'Tall-Only' : 'Tall Section';
-        const genderLabel = isMen ? "Men's" : "Women's";
+        const genderLabel = cardIsMen ? "Men's" : "Women's";
 
-        const desc = generateDesc(s, isMen);
+        const desc = generateDesc(s, cardIsMen);
 
         const stats = [];
         if (s.tallSpecific) stats.push({ text: '\u2605 Tall-Only', highlight: true });
@@ -605,11 +626,11 @@ function render() {
         else if (s.hasTops) stats.push({ text: 'Tops', highlight: false });
         else if (s.hasBottoms) stats.push({ text: 'Bottoms', highlight: false });
 
-        if (isMen && !_skip(s.inseamD)) {
+        if (cardIsMen && !_skip(s.inseamD)) {
             const ins = /^\d/.test(s.inseamD) ? s.inseamD + ' inseam' : s.inseamD;
             stats.push({ text: ins, highlight: s.inseam >= 38 });
         }
-        if (!isMen && !_skip(s.bottomSizes) && s.bottomSizes.length < 30) {
+        if (!cardIsMen && !_skip(s.bottomSizes) && s.bottomSizes.length < 30) {
             stats.push({ text: s.bottomSizes, highlight: false });
         }
 
@@ -638,8 +659,8 @@ function render() {
     if (useFlat && flatList) {
         flatList.forEach((s, i) => { html += renderCard(s, i); });
     } else {
-        const t = nameSort(tallOnly);
-        const m = nameSort(mainstream);
+        const t = nameSort(tallOnly.map(item => item.store)).map(s => tallOnly.find(item => item.store === s));
+        const m = nameSort(mainstream.map(item => item.store)).map(s => mainstream.find(item => item.store === s));
         if (t.length && m.length) {
             html += '<div class="section-break"><h2 class="section-title">Tall-Only Brands</h2><div class="section-line"></div></div>';
         }
